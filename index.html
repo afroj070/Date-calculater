@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            /* font-family: Arial, Helvetica, sans-serif; */
+            padding: 20px;
+            /* background-color: #e8b32991; */
+            ;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 12px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 15px auto;
+            height: 360px;
+            width: 500px;
+            /* border: 2px solid black; */
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            background-color: rgb(174, 226, 226);
+            border-radius: 10px;
+        }
+
+        label {
+            font-size: 30px;
+            font-weight: bold;
+            margin: 11px;
+        }
+
+        #birthDate {
+            width: 45%;
+            margin: 11px;
+            font-size: 18px;
+            padding: 8px;
+            background-color: #8de188;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+        .btn {
+            margin: 5px;
+            padding: 8px 24px;
+            font-size: 15px;
+            font-weight: bold;
+            background-color: #29836a8c;
+            border: 2px solid #070707;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #result {
+            font-weight: bold;
+            font-size: 18px;
+            margin: 13px;
+            color: red;
+        }
+        hr{
+            width: 500px;
+            height: 5px;
+            color: pink;
+            background: #0c0c0c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Date Age Calculator</h1>
+    <hr>
+    <div class="container">
+        <label for="birthDate">Select Your Date of Birth</label>
+        <input type="date" name="birthDate" id="birthDate" required>
+        <div>
+            <button id="calculateAge" class="btn">Calculate</button>
+            <button id="clear" class="btn">Clear</button>
+        </div>
+        <span id="result"></span>
+    </div>
+    <script>
+
+        let dob = document.getElementById("birthDate");
+        let result = document.getElementById("result");
+        let currentYear = new Date().getFullYear();
+        let currentMonth = new Date().getMonth() + 1;
+        let currentDate = new Date().getDate();
+
+        document.getElementById("calculateAge").addEventListener("click", () => {
+            if (dob.value == "") {
+                result.innerHTML = "Please select Date";
+            } else {
+                calculateAgeDifference(dob.value);
+            }
+        })
+
+        document.getElementById("clear").addEventListener("click", () => {
+            window.location.reload();
+        })
+
+        function calculateAgeDifference(start) {
+            let dobYear = parseInt(start.substring(0, 4), 10);
+            let dobMonth = parseInt(start.substring(5, 7), 10);
+            let dobDate = parseInt(start.substring(8, 10), 10);
+
+            let yearAgeDiff = currentYear - dobYear;
+
+            let monthAgeDiff;
+            if (currentMonth >= dobMonth) {
+                monthAgeDiff = currentMonth - dobMonth;
+            } else {
+                yearAgeDiff--;
+                monthAgeDiff = 12 + currentMonth - dobMonth;
+            }
+
+            let dateAgeDiff;
+            if (currentDate >= dobDate) {
+                dateAgeDiff = currentDate - dobDate;
+            } else {
+                monthAgeDiff--;
+                noOfDaysInDOB = daysInMonth(dobMonth, dobYear);
+                dateAgeDiff = noOfDaysInDOB + currentDate - dobDate;
+
+                if (monthAgeDiff < 0) {
+                    monthAgeDiff = 11;
+                    yearAgeDiff--;
+                }
+            }
+            result.innerHTML = `${yearAgeDiff} Years ${monthAgeDiff} Months ${dateAgeDiff} Days`;
+            function daysInMonth(month, year) {
+                return new Date(year, month, 0).getDate();
+            }
+        }
+    </script>
+
+</body>
+</html>
